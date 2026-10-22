@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+<html lang="en" data-bs-theme="light">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta name="description" content="None">
+        
+        
+        <link rel="shortcut icon" href="img/favicon.ico">
+        <title>Лабораторная работа № 1</title>
+        <link href="css/bootstrap.min.css" rel="stylesheet">
+        <link href="css/fontawesome.min.css" rel="stylesheet">
+        <link href="css/brands.min.css" rel="stylesheet">
+        <link href="css/solid.min.css" rel="stylesheet">
+        <link href="css/v4-font-face.min.css" rel="stylesheet">
+        <link href="css/base.css" rel="stylesheet">
+        <link id="hljs-light" rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/styles/github.min.css" >
+        <link id="hljs-dark" rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/styles/github-dark.min.css" disabled>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/highlight.min.js"></script>
+        <script>hljs.highlightAll();</script> 
+    </head>
+
+    <body class="homepage">
+        <div class="navbar fixed-top navbar-expand-lg navbar-dark bg-primary">
+            <div class="container">
+                <a class="navbar-brand" href=".">Лабораторная работа № 1</a>
+
+                <!-- Expanded navigation -->
+                <div id="navbar-collapse" class="navbar-collapse collapse">
+
+                    <ul class="nav navbar-nav ms-md-auto">
+                        <li class="nav-item">
+                            <a href="#" class="nav-link" data-bs-toggle="modal" data-bs-target="#mkdocs_search_modal">
+                                <i class="fa fa-search"></i> Search
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <div class="container">
+            <div class="row">
+                    <div class="col-md-3"><div class="navbar-expand-md bs-sidebar hidden-print affix" role="complementary">
+    <div class="navbar-header">
+        <button type="button" class="navbar-toggler collapsed" data-bs-toggle="collapse" data-bs-target="#toc-collapse" title="Table of Contents">
+            <span class="fa fa-angle-down"></span>
+        </button>
+    </div>
+
+    
+    <div id="toc-collapse" class="navbar-collapse collapse card bg-body-tertiary">
+        <ul class="nav flex-column">
+            
+            <li class="nav-item" data-bs-level="1"><a href="#no-1" class="nav-link">Лабораторная работа № 1. Работа с сокетами</a>
+              <ul class="nav flex-column">
+            <li class="nav-item" data-bs-level="2"><a href="#_1" class="nav-link">Цель работы</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-bs-level="2"><a href="#1-udp" class="nav-link">Задание 1. Обмен по UDP</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-bs-level="2"><a href="#2-tcp" class="nav-link">Задание 2. Вычисление по TCP</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-bs-level="2"><a href="#3-html-http" class="nav-link">Задание 3. Раздача HTML по HTTP</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-bs-level="2"><a href="#4" class="nav-link">Задание 4. Многопользовательский чат</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-bs-level="2"><a href="#5-http-" class="nav-link">Задание 5. HTTP-сервер оценок</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-bs-level="2"><a href="#_2" class="nav-link">Вывод</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+              </ul>
+            </li>
+        </ul>
+    </div>
+</div></div>
+                    <div class="col-md-9" role="main">
+
+<h1 id="no-1">Лабораторная работа № 1. Работа с сокетами</h1>
+<p><strong>Студент:</strong> Илхом Солиев<br />
+<strong>Группа:</strong> К3339</p>
+<h2 id="_1">Цель работы</h2>
+<p>Реализовать обмен данными между клиентом и сервером с помощью сокетов и изучить протоколы UDP, TCP и HTTP.</p>
+<h2 id="1-udp">Задание 1. Обмен по UDP</h2>
+<p>UDP позволяет отправлять датаграммы без установки соединения. Клиент отправляет сообщение, сервер получает его и отвечает отправителю.</p>
+<pre><code class="language-python"># Клиент
+client.sendto(b&quot;Hello, server&quot;, (&quot;127.0.0.1&quot;, 9090))
+message, address = client.recvfrom(1024)
+
+# Сервер
+message, address = server.recvfrom(1024)
+print(message.decode())
+server.sendto(b&quot;Hello, client&quot;, address)
+</code></pre>
+<h2 id="2-tcp">Задание 2. Вычисление по TCP</h2>
+<p>Клиент передаёт серверу основание и высоту. Сервер вычисляет их произведение <code>S = a × h</code> и отправляет результат обратно.</p>
+<pre><code class="language-python"># Клиент отправляет параметры и получает ответ
+client.sendall(f&quot;{base} {height}&quot;.encode())
+print(client.recv(1024).decode())
+
+# Сервер вычисляет результат
+base, height = map(float, connection.recv(1024).decode().split())
+area = base * height
+connection.sendall(str(area).encode())
+</code></pre>
+<h2 id="3-html-http">Задание 3. Раздача HTML по HTTP</h2>
+<p>Сервер читает <code>index.html</code> и формирует HTTP-ответ. <code>Content-Length</code> задаёт размер HTML-тела в байтах.</p>
+<pre><code class="language-python">body = Path(__file__).with_name(&quot;index.html&quot;).read_bytes()
+response = (
+    b&quot;HTTP/1.1 200 OK\r\n&quot;
+    b&quot;Content-Type: text/html; charset=utf-8\r\n&quot;
+    + f&quot;Content-Length: {len(body)}\r\n\r\n&quot;.encode(&quot;ascii&quot;)
+    + body
+)
+connection.sendall(response)
+</code></pre>
+<h2 id="4">Задание 4. Многопользовательский чат</h2>
+<p>Сервер запускает отдельный поток для каждого подключения. Имя клиента сохраняется вместе с его сокетом, а сообщения пересылаются всем остальным участникам. Команда <code>/quit</code> завершает работу клиента в чате.</p>
+<pre><code class="language-python"># Обработка каждого клиента в отдельном потоке
+threading.Thread(
+    target=handle_client,
+    args=(connection,),
+    daemon=True
+).start()
+
+# Рассылка сообщения с именем отправителя
+sender_name = next(name for name, connection in clients if connection == sender)
+for _, connection in clients:
+    if connection != sender:
+        connection.sendall(f&quot;{sender_name}: {message}\n&quot;.encode(&quot;utf-8&quot;))
+</code></pre>
+<h2 id="5-http-">Задание 5. HTTP-сервер оценок</h2>
+<p>Сервер принимает данные формы методом <code>POST</code> и сохраняет список оценок для каждого предмета в <code>grades.json</code>. При запросе страницы оценки отображаются в HTML-таблице.</p>
+<pre><code class="language-python"># Добавление оценки в список предмета
+grades.setdefault(subject, []).append(grade)
+file.write_text(json.dumps(grades, ensure_ascii=False, indent=2), encoding=&quot;utf-8&quot;)
+
+# Сохранение данных POST и подготовка HTML-страницы
+if method == &quot;POST&quot;:
+    form = parse_qs(body.decode())
+    save_grade(form[&quot;subject&quot;][0], form[&quot;grade&quot;][0])
+
+response_body = page().encode(&quot;utf-8&quot;)
+response = (
+    b&quot;HTTP/1.1 200 OK\r\n&quot;
+    b&quot;Content-Type: text/html; charset=utf-8\r\n&quot;
+    + f&quot;Content-Length: {len(response_body)}\r\n\r\n&quot;.encode()
+    + response_body
+)
+connection.sendall(response)
+</code></pre>
+<h2 id="_2">Вывод</h2>
+<p>В работе реализованы обмен сообщениями по UDP и TCP, многопользовательский чат и HTTP-серверы. На практике использованы сокеты для передачи данных и разобрана структура HTTP-запроса и ответа.</p></div>
+            </div>
+        </div>
+
+        <footer class="col-md-12">
+            <hr>
+            <p>Documentation built with <a href="https://www.mkdocs.org/">MkDocs</a>.</p>
+        </footer>
+        <script src="js/bootstrap.bundle.min.js"></script>
+        <script>
+            var base_url = ".",
+                shortcuts = {"help": 191, "next": 78, "previous": 80, "search": 83};
+        </script>
+        <script src="js/base.js"></script>
+        <script src="search/main.js"></script>
+
+        <div class="modal" id="mkdocs_search_modal" tabindex="-1" role="dialog" aria-labelledby="searchModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title" id="searchModalLabel">Search</h4>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <p>From here you can search these documents. Enter your search terms below.</p>
+                <form>
+                    <div class="form-group">
+                        <input type="search" class="form-control" placeholder="Search..." id="mkdocs-search-query" title="Type search term here">
+                    </div>
+                </form>
+                <div id="mkdocs-search-results" data-no-results-text="No results found"></div>
+            </div>
+            <div class="modal-footer">
+            </div>
+        </div>
+    </div>
+</div><div class="modal" id="mkdocs_keyboard_modal" tabindex="-1" role="dialog" aria-labelledby="keyboardModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title" id="keyboardModalLabel">Keyboard Shortcuts</h4>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+              <table class="table">
+                <thead>
+                  <tr>
+                    <th style="width: 20%;">Keys</th>
+                    <th>Action</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td class="help shortcut"><kbd>?</kbd></td>
+                    <td>Open this help</td>
+                  </tr>
+                  <tr>
+                    <td class="next shortcut"><kbd>n</kbd></td>
+                    <td>Next page</td>
+                  </tr>
+                  <tr>
+                    <td class="prev shortcut"><kbd>p</kbd></td>
+                    <td>Previous page</td>
+                  </tr>
+                  <tr>
+                    <td class="search shortcut"><kbd>s</kbd></td>
+                    <td>Search</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+            <div class="modal-footer">
+            </div>
+        </div>
+    </div>
+</div>
+
+    </body>
+</html>
+
+<!--
+MkDocs version : 1.6.1
+Build Date UTC : 2026-10-22 09:41:58.887661+00:00
+-->
